@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jQuery AJAX Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>jQuery AJAX Test</h1>
+    <div id="status">Testing connection...</div>
+    <button id="test-button">Test Connection</button>
+
+    <script>
+        $(document).ready(function() {
+            // Test on page load
+            testConnection();
+            
+            // Add button click handler
+            $('#test-button').click(testConnection);
+        });
+        
+        function testConnection() {
+            $('#status').text('Testing connection...');
+            
+            $.ajax({
+                url: 'http://localhost:5001/api/status',
+                type: 'GET',
+                dataType: 'json',
+                crossDomain: true,
+                success: function(data) {
+                    $('#status').text('Connection successful: ' + JSON.stringify(data));
+                    console.log('Data received:', data);
+                },
+                error: function(xhr, status, error) {
+                    $('#status').text('Connection failed: ' + error);
+                    console.error('Error:', {xhr: xhr, status: status, error: error});
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

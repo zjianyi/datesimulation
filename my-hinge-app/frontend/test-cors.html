@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+</head>
+<body>
+    <h1>CORS Test</h1>
+    <div id="status">Testing connection...</div>
+    <button id="test-button">Test Connection</button>
+
+    <script>
+        document.getElementById('test-button').addEventListener('click', testConnection);
+        
+        // Test on page load
+        window.onload = testConnection;
+        
+        function testConnection() {
+            document.getElementById('status').textContent = 'Testing connection...';
+            
+            fetch('http://localhost:3000/api/status')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('status').textContent = 'Connection successful: ' + JSON.stringify(data);
+                })
+                .catch(error => {
+                    document.getElementById('status').textContent = 'Connection failed: ' + error.message;
+                });
+        }
+    </script>
+</body>
+</html> 

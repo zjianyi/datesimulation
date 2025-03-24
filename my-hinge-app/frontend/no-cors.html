@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>No CORS Test</title>
+</head>
+<body>
+    <h1>No CORS Test</h1>
+    <div id="status">Testing connection...</div>
+    <button id="test-button">Test Connection</button>
+
+    <script>
+        document.getElementById('test-button').addEventListener('click', testConnection);
+        
+        // Test on page load
+        window.onload = testConnection;
+        
+        function testConnection() {
+            document.getElementById('status').textContent = 'Testing connection...';
+            
+            fetch('http://localhost:5001/api/status', {
+                mode: 'no-cors' // This bypasses CORS but makes the response opaque
+            })
+                .then(response => {
+                    // With 'no-cors', we can't access the response content
+                    document.getElementById('status').textContent = 'Connection successful (with no-cors mode)';
+                    console.log('Response object:', response);
+                })
+                .catch(error => {
+                    document.getElementById('status').textContent = 'Connection failed: ' + error.message;
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+</html> 
